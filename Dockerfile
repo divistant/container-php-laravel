@@ -2,12 +2,9 @@
 # PHP Dependencies
 #
 FROM composer:2 as vendor
-
 COPY database/ database/
-
 COPY composer.json composer.json
 COPY composer.lock composer.lock
-
 RUN composer install \
     --ignore-platform-reqs \
     --no-interaction \
@@ -19,14 +16,10 @@ RUN composer install \
 # Frontend
 #
 FROM node:15.10-alpine as frontend
-
 RUN mkdir -p /app/public
-
 COPY package.json webpack.mix.js yarn.lock /app/
 COPY resources/ /app/resources/
-
 WORKDIR /app
-
 RUN yarn install && yarn production
 
 #
