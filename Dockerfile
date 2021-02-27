@@ -26,7 +26,6 @@ RUN yarn install && yarn production
 # Application
 #
 FROM php:8.0-apache
-
 COPY . /var/www/html
 COPY --from=vendor /app/vendor/ /var/www/html/vendor/
 COPY --from=frontend /app/public/js/ /var/www/html/public/js/
