@@ -1,0 +1,24 @@
+# Base Image
+FROM php:8.0-apache
+
+# Install NPM
+RUN apt-get update && apt-get install -y npm zip unzip
+RUN npm install npm@latest -g
+RUN npm cache clean --force
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy Laravel app to Container
+COPY . .
+
+# Composer Install
+RUN composer install \
+        --ignore-platform-reqs \
+        --no-interaction \
+        --no-plugins \
+        --no-scripts \
+        --prefer-dist
+
+# NPM Install and Compile
+RUN npm install && npm run production
